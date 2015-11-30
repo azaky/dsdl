@@ -1,0 +1,59 @@
+grammar com.dsdl.DSDL with org.eclipse.xtext.common.Terminals
+
+generate dSDL "http://www.dsdl.com/DSDL"
+
+Database:
+	'database' name = ID '{'
+		table += Table*
+	'}'
+;
+
+Table:
+	'table' name = ID '{'
+		attribute += Attribute*
+	'}'
+;
+
+Attribute:
+	attributeName = ID ':' type = Type property += Property*
+;
+
+Type:
+	Integer | Varchar | Text | DateTime
+;
+
+Property:
+	PrimaryKey | AutoIncrement | Nullable | ForeignKey
+;
+
+Integer:
+	integer = 'integer' ('(' length = INT ')')?
+;
+
+Varchar:
+	varchar = 'varchar' ('(' length = INT ')')?
+;
+
+Text:
+	text = 'text'
+;
+
+DateTime:
+	date = 'datetime'
+;
+
+PrimaryKey:
+	primaryKey ?= 'primary_key'
+;
+
+AutoIncrement:
+	autoIncrement ?= 'auto_increment'
+;
+
+Nullable:
+	nullable ?= 'nullable'
+;
+
+ForeignKey:
+	'refer_to' tableName = ID '.' attributeName = ID
+;
